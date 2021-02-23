@@ -4,6 +4,32 @@ schema {
     query: Query
 }
 
+"Record of type Kategorie (category)"
+type CategoryRecord {
+    _createdAt: DateTime!
+    _firstPublishedAt: DateTime
+    _isValid: BooleanType!
+    _modelApiKey: String!
+    _publicationScheduledAt: DateTime
+    _publishedAt: DateTime
+    "SEO meta tags"
+    _seoMetaTags(
+        "The locale to use to fetch the field's content"
+        locale: SiteLocale
+    ): [Tag!]!
+    _status: ItemStatus!
+    _unpublishingScheduledAt: DateTime
+    _updatedAt: DateTime!
+    children: [CategoryRecord]
+    createdAt: DateTime!
+    id: ItemId!
+    parent: CategoryRecord
+    position: IntType
+    slug: String
+    title: String
+    updatedAt: DateTime!
+}
+
 type CollectionMetadata {
     count: IntType!
 }
@@ -84,6 +110,12 @@ type GlobalSeoField {
 
 "The query root for this schema"
 type Query {
+    "Returns meta information regarding a record collection"
+    _allCategoriesMeta(
+        filter: CategoryModelFilter,
+        "The locale to use to fetch the field's content"
+        locale: SiteLocale
+    ): CollectionMetadata!
     "Returns meta information regarding an assets collection"
     _allUploadsMeta(
         filter: UploadFilter,
@@ -95,6 +127,17 @@ type Query {
         "The locale to use to fetch the field's content"
         locale: SiteLocale
     ): Site!
+    "Returns a collection of records"
+    allCategories(
+        filter: CategoryModelFilter,
+        "Limit the number of results"
+        first: IntType = 20,
+        "The locale to use to fetch the field's content"
+        locale: SiteLocale,
+        orderBy: [CategoryModelOrderBy] = [position_ASC],
+        "Skip the first results"
+        skip: IntType
+    ): [CategoryRecord!]!
     "Returns a collection of assets"
     allUploads(
         filter: UploadFilter,
@@ -106,6 +149,13 @@ type Query {
         "Skip the first results"
         skip: IntType
     ): [FileField!]!
+    "Returns a specific record"
+    category(
+        filter: CategoryModelFilter,
+        "The locale to use to fetch the field's content"
+        locale: SiteLocale,
+        orderBy: [CategoryModelOrderBy] = [position_ASC]
+    ): CategoryRecord
     "Returns a specific asset"
     upload(
         filter: UploadFilter,
@@ -175,6 +225,35 @@ type UploadVideoField {
 type focalPoint {
     x: FloatType
     y: FloatType
+}
+
+enum CategoryModelOrderBy {
+    _createdAt_ASC
+    _createdAt_DESC
+    _firstPublishedAt_ASC
+    _firstPublishedAt_DESC
+    _isValid_ASC
+    _isValid_DESC
+    _publicationScheduledAt_ASC
+    _publicationScheduledAt_DESC
+    _publishedAt_ASC
+    _publishedAt_DESC
+    _status_ASC
+    _status_DESC
+    _unpublishingScheduledAt_ASC
+    _unpublishingScheduledAt_DESC
+    _updatedAt_ASC
+    _updatedAt_DESC
+    createdAt_ASC
+    createdAt_DESC
+    id_ASC
+    id_DESC
+    position_ASC
+    position_DESC
+    title_ASC
+    title_DESC
+    updatedAt_ASC
+    updatedAt_DESC
 }
 
 enum ColorBucketType {
@@ -366,6 +445,12 @@ enum ImgixParamsTxtFit {
     max
 }
 
+enum ItemStatus {
+    draft
+    published
+    updated
+}
+
 enum MuxThumbnailFormatType {
     gif
     jpg
@@ -425,6 +510,49 @@ enum VideoMp4Res {
     high
     low
     medium
+}
+
+"Specifies how to filter Boolean fields"
+input BooleanFilter {
+    "Search for records with an exact match"
+    eq: BooleanType
+}
+
+input CategoryModelFilter {
+    OR: [CategoryModelFilter]
+    _createdAt: CreatedAtFilter
+    _firstPublishedAt: PublishedAtFilter
+    _isValid: BooleanFilter
+    _publicationScheduledAt: PublishedAtFilter
+    _publishedAt: PublishedAtFilter
+    _status: StatusFilter
+    _unpublishingScheduledAt: PublishedAtFilter
+    _updatedAt: UpdatedAtFilter
+    createdAt: CreatedAtFilter
+    id: ItemIdFilter
+    parent: ParentFilter
+    position: PositionFilter
+    slug: SlugFilter
+    title: StringFilter
+    updatedAt: UpdatedAtFilter
+}
+
+"Specifies how to filter by creation datetime"
+input CreatedAtFilter {
+    "Search for records with an exact match (seconds are truncated)"
+    eq: DateTime
+    "Filter records with the specified field defined (i.e. with any value) or not"
+    exists: BooleanType
+    "Filter records with a value that's strictly greater than the one specified"
+    gt: DateTime
+    "Filter records with a value that's greater than or equal to than the one specified"
+    gte: DateTime
+    "Filter records with a value that's less than the one specified"
+    lt: DateTime
+    "Filter records with a value that's less or equal than the one specified"
+    lte: DateTime
+    "Exclude records with an exact match"
+    neq: DateTime
 }
 
 input ImgixParams {
@@ -1670,12 +1798,66 @@ input InUseFilter {
     eq: BooleanType
 }
 
+"Specifies how to filter by ID"
+input ItemIdFilter {
+    "Search the record with the specified ID"
+    eq: ItemId
+    "Search records with the specified IDs"
+    in: [ItemId]
+    "Exclude the record with the specified ID"
+    neq: ItemId
+    "Search records that do not have the specified IDs"
+    notIn: [ItemId]
+}
+
 "Specifies how to filter by image orientation"
 input OrientationFilter {
     "Search uploads with the specified orientation"
     eq: UploadOrientation
     "Exclude uploads with the specified orientation"
     neq: UploadOrientation
+}
+
+"Specifies how to filter by parent (tree-like collections only)"
+input ParentFilter {
+    "Filter records children of the specified record. Value must be a Record ID"
+    eq: ItemId
+    "Filter records with a parent record or not"
+    exists: BooleanType
+}
+
+"Specifies how to filter by position (sorted and tree-like collections)"
+input PositionFilter {
+    "Search for records with an exact match"
+    eq: IntType
+    "Filter records with a value that's strictly greater than the one specified"
+    gt: IntType
+    "Filter records with a value that's greater than or equal to the one specified"
+    gte: IntType
+    "Filter records with a value that's less than the one specified"
+    lt: IntType
+    "Filter records with a value that's less or equal than the one specified"
+    lte: IntType
+    "Exclude records with an exact match"
+    neq: IntType
+}
+
+"Specifies how to filter by publication datetime"
+input PublishedAtFilter {
+    "Search for records with an exact match (seconds are truncated)"
+    eq: DateTime
+    "Filter records with the specified field defined (i.e. with any value) or not"
+    exists: BooleanType
+    "Filter records with a value that's strictly greater than the one specified"
+    gt: DateTime
+    "Filter records with a value that's greater than or equal to than the one specified"
+    gte: DateTime
+    "Filter records with a value that's less than the one specified"
+    lt: DateTime
+    "Filter records with a value that's less or equal than the one specified"
+    lte: DateTime
+    "Exclude records with an exact match"
+    neq: DateTime
 }
 
 "Specifies how to filter by upload type"
@@ -1688,6 +1870,48 @@ input ResolutionFilter {
     neq: ResolutionType
     "Search uploads without the specified resolutions"
     notIn: [ResolutionType]
+}
+
+"Specifies how to filter Slug fields"
+input SlugFilter {
+    "Search for records with an exact match"
+    eq: String
+    "Filter records that have one of the specified slugs"
+    in: [String]
+    "Exclude records with an exact match"
+    neq: String
+    "Filter records that do have one of the specified slugs"
+    notIn: [String]
+}
+
+"Specifies how to filter by status"
+input StatusFilter {
+    "Search the record with the specified status"
+    eq: ItemStatus
+    "Search records with the specified statuses"
+    in: [ItemStatus]
+    "Exclude the record with the specified status"
+    neq: ItemStatus
+    "Search records without the specified statuses"
+    notIn: [ItemStatus]
+}
+
+"Specifies how to filter Single-line string fields"
+input StringFilter {
+    "Search for records with an exact match"
+    eq: String
+    "Filter records with the specified field defined (i.e. with any value) or not"
+    exists: BooleanType
+    "Filter records that equal one of the specified values"
+    in: [String]
+    "Filter records based on a regular expression"
+    matches: StringMatchesFilter
+    "Exclude records with an exact match"
+    neq: String
+    "Filter records that do not equal one of the specified values"
+    notIn: [String]
+    "Exclude records based on a regular expression"
+    notMatches: StringMatchesFilter
 }
 
 input StringMatchesFilter {
@@ -1706,6 +1930,24 @@ input TypeFilter {
     neq: UploadType
     "Search uploads without the specified types"
     notIn: [UploadType]
+}
+
+"Specifies how to filter by update datetime"
+input UpdatedAtFilter {
+    "Search for records with an exact match (seconds are truncated)"
+    eq: DateTime
+    "Filter records with the specified field defined (i.e. with any value) or not"
+    exists: BooleanType
+    "Filter records with a value that's strictly greater than the one specified"
+    gt: DateTime
+    "Filter records with a value that's greater than or equal to than the one specified"
+    gte: DateTime
+    "Filter records with a value that's less than the one specified"
+    lt: DateTime
+    "Filter records with a value that's less or equal than the one specified"
+    lte: DateTime
+    "Exclude records with an exact match"
+    neq: DateTime
 }
 
 "Specifies how to filter by default alt"
@@ -1965,20 +2207,22 @@ input UploadWidthFilter {
 }
 
 
-scalar UploadId
+"A ISO 8601 compliant datetime value"
+scalar DateTime
+
+scalar ItemId
 
 "Represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1."
 scalar IntType
 
-"A ISO 8601 compliant datetime value"
-scalar DateTime
+scalar MetaTagAttributes
+
+"Represents `true` or `false` values."
+scalar BooleanType
+
+scalar UploadId
 
 scalar CustomData
 
 "Represents signed double-precision fractional values as specified by [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point)."
 scalar FloatType
-
-"Represents `true` or `false` values."
-scalar BooleanType
-
-scalar MetaTagAttributes
