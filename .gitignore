@@ -34,5 +34,5 @@ yarn-error.log*
 .vercel
 
 .graphqlconfig
-src/generated
+generated
 .env
