@@ -4,6 +4,34 @@ schema {
     query: Query
 }
 
+"Record of type Článek (article)"
+type ArticleRecord {
+    _createdAt: DateTime!
+    _firstPublishedAt: DateTime
+    _isValid: BooleanType!
+    _modelApiKey: String!
+    _publicationScheduledAt: DateTime
+    _publishedAt: DateTime
+    "SEO meta tags"
+    _seoMetaTags(
+        "The locale to use to fetch the field's content"
+        locale: SiteLocale
+    ): [Tag!]!
+    _status: ItemStatus!
+    _unpublishingScheduledAt: DateTime
+    _updatedAt: DateTime!
+    content(
+        "Process content as markdown"
+        markdown: Boolean
+    ): String
+    createdAt: DateTime!
+    id: ItemId!
+    seoData: SeoField
+    slug: String
+    title: String
+    updatedAt: DateTime!
+}
+
 "Record of type Kategorie (category)"
 type CategoryRecord {
     _createdAt: DateTime!
@@ -20,10 +48,8 @@ type CategoryRecord {
     _status: ItemStatus!
     _unpublishingScheduledAt: DateTime
     _updatedAt: DateTime!
-    children: [CategoryRecord]
     createdAt: DateTime!
     id: ItemId!
-    parent: CategoryRecord
     position: IntType
     slug: String
     title: String
@@ -40,6 +66,29 @@ type ColorField {
     green: IntType
     hex: String
     red: IntType
+}
+
+"Record of type Nastavení (configuration)"
+type ConfigurationRecord {
+    _createdAt: DateTime!
+    _firstPublishedAt: DateTime
+    _isValid: BooleanType!
+    _modelApiKey: String!
+    _publicationScheduledAt: DateTime
+    _publishedAt: DateTime
+    "SEO meta tags"
+    _seoMetaTags(
+        "The locale to use to fetch the field's content"
+        locale: SiteLocale
+    ): [Tag!]!
+    _status: ItemStatus!
+    _unpublishingScheduledAt: DateTime
+    _updatedAt: DateTime!
+    createdAt: DateTime!
+    id: ItemId!
+    introImage: FileField
+    updatedAt: DateTime!
+    webTitle: String
 }
 
 type FileField {
@@ -111,6 +160,12 @@ type GlobalSeoField {
 "The query root for this schema"
 type Query {
     "Returns meta information regarding a record collection"
+    _allArticlesMeta(
+        filter: ArticleModelFilter,
+        "The locale to use to fetch the field's content"
+        locale: SiteLocale
+    ): CollectionMetadata!
+    "Returns meta information regarding a record collection"
     _allCategoriesMeta(
         filter: CategoryModelFilter,
         "The locale to use to fetch the field's content"
@@ -127,6 +182,17 @@ type Query {
         "The locale to use to fetch the field's content"
         locale: SiteLocale
     ): Site!
+    "Returns a collection of records"
+    allArticles(
+        filter: ArticleModelFilter,
+        "Limit the number of results"
+        first: IntType = 20,
+        "The locale to use to fetch the field's content"
+        locale: SiteLocale,
+        orderBy: [ArticleModelOrderBy] = [_updatedAt_DESC],
+        "Skip the first results"
+        skip: IntType
+    ): [ArticleRecord!]!
     "Returns a collection of records"
     allCategories(
         filter: CategoryModelFilter,
@@ -150,12 +216,24 @@ type Query {
         skip: IntType
     ): [FileField!]!
     "Returns a specific record"
+    article(
+        filter: ArticleModelFilter,
+        "The locale to use to fetch the field's content"
+        locale: SiteLocale,
+        orderBy: [ArticleModelOrderBy] = [_updatedAt_DESC]
+    ): ArticleRecord
+    "Returns a specific record"
     category(
         filter: CategoryModelFilter,
         "The locale to use to fetch the field's content"
         locale: SiteLocale,
         orderBy: [CategoryModelOrderBy] = [position_ASC]
     ): CategoryRecord
+    "Returns the single instance record"
+    configuration(
+        "The locale to use to fetch the field's content"
+        locale: SiteLocale
+    ): ConfigurationRecord
     "Returns a specific asset"
     upload(
         filter: UploadFilter,
@@ -225,6 +303,33 @@ type UploadVideoField {
 type focalPoint {
     x: FloatType
     y: FloatType
+}
+
+enum ArticleModelOrderBy {
+    _createdAt_ASC
+    _createdAt_DESC
+    _firstPublishedAt_ASC
+    _firstPublishedAt_DESC
+    _isValid_ASC
+    _isValid_DESC
+    _publicationScheduledAt_ASC
+    _publicationScheduledAt_DESC
+    _publishedAt_ASC
+    _publishedAt_DESC
+    _status_ASC
+    _status_DESC
+    _unpublishingScheduledAt_ASC
+    _unpublishingScheduledAt_DESC
+    _updatedAt_ASC
+    _updatedAt_DESC
+    createdAt_ASC
+    createdAt_DESC
+    id_ASC
+    id_DESC
+    title_ASC
+    title_DESC
+    updatedAt_ASC
+    updatedAt_DESC
 }
 
 enum CategoryModelOrderBy {
@@ -465,7 +570,7 @@ enum ResolutionType {
 }
 
 enum SiteLocale {
-    en
+    cs
 }
 
 enum UploadOrderBy {
@@ -512,6 +617,25 @@ enum VideoMp4Res {
     medium
 }
 
+input ArticleModelFilter {
+    OR: [ArticleModelFilter]
+    _createdAt: CreatedAtFilter
+    _firstPublishedAt: PublishedAtFilter
+    _isValid: BooleanFilter
+    _publicationScheduledAt: PublishedAtFilter
+    _publishedAt: PublishedAtFilter
+    _status: StatusFilter
+    _unpublishingScheduledAt: PublishedAtFilter
+    _updatedAt: UpdatedAtFilter
+    content: TextFilter
+    createdAt: CreatedAtFilter
+    id: ItemIdFilter
+    seoData: SeoFilter
+    slug: SlugFilter
+    title: StringFilter
+    updatedAt: UpdatedAtFilter
+}
+
 "Specifies how to filter Boolean fields"
 input BooleanFilter {
     "Search for records with an exact match"
@@ -530,7 +654,6 @@ input CategoryModelFilter {
     _updatedAt: UpdatedAtFilter
     createdAt: CreatedAtFilter
     id: ItemIdFilter
-    parent: ParentFilter
     position: PositionFilter
     slug: SlugFilter
     title: StringFilter
@@ -1818,14 +1941,6 @@ input OrientationFilter {
     neq: UploadOrientation
 }
 
-"Specifies how to filter by parent (tree-like collections only)"
-input ParentFilter {
-    "Filter records children of the specified record. Value must be a Record ID"
-    eq: ItemId
-    "Filter records with a parent record or not"
-    exists: BooleanType
-}
-
 "Specifies how to filter by position (sorted and tree-like collections)"
 input PositionFilter {
     "Search for records with an exact match"
@@ -1870,6 +1985,12 @@ input ResolutionFilter {
     neq: ResolutionType
     "Search uploads without the specified resolutions"
     notIn: [ResolutionType]
+}
+
+"Specifies how to filter SEO meta tags fields"
+input SeoFilter {
+    "Filter records with the specified field defined (i.e. with any value) or not"
+    exists: BooleanType
 }
 
 "Specifies how to filter Slug fields"
@@ -1918,6 +2039,16 @@ input StringMatchesFilter {
     caseSensitive: BooleanType = false
     pattern: String!
     regexp: BooleanType = true
+}
+
+"Specifies how to filter text fields"
+input TextFilter {
+    "Filter records with the specified field defined (i.e. with any value) or not"
+    exists: BooleanType
+    "Filter records based on a regular expression"
+    matches: StringMatchesFilter
+    "Exclude records based on a regular expression"
+    notMatches: StringMatchesFilter
 }
 
 "Specifies how to filter by upload type"

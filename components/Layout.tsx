@@ -1,8 +1,11 @@
 import { FC } from 'react'
+import Head from 'next/head'
+import styled from 'styled-components'
+
 import { Header } from './Header'
 import { Navigation } from './Navigation'
-import styled from 'styled-components'
 import { HeroImage } from './HeroImage'
+import { categoriesListQuery, configurationQuery } from '../generated/sdk'
 
 const HeaderContainer = styled.div`
   margin: auto;
@@ -42,18 +45,28 @@ const ContentContainer = styled.main`
 
 interface Props {
   displayHero?: boolean
+  configuration: configurationQuery
+  categories: categoriesListQuery
 }
 
-export const Layout: FC<Props> = ({ children, displayHero = true }) => {
+export const Layout: FC<Props> = ({
+  children,
+  displayHero = true,
+  configuration,
+  categories,
+}) => {
   return (
     <>
+      <Head>
+        <title>{configuration.data.globalSeo.siteName}</title>
+      </Head>
       <HeaderContainer>
         {displayHero && <HeroImage />}
-        <Header />
+        <Header title={configuration.data.globalSeo.siteName} />
       </HeaderContainer>
       <Wrapper>
         <Sidebar>
-          <Navigation />
+          <Navigation categories={categories} />
         </Sidebar>
         <ContentContainer>{children}</ContentContainer>
       </Wrapper>

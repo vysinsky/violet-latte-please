@@ -24,10 +24,14 @@ const Heading = styled.h1`
   }
 `
 
-export const Header: FC = () => {
+interface Props {
+  title: string
+}
+
+export const Header: FC<Props> = ({ title }) => {
   return (
     <Wrapper>
-      <Heading>variables.titulek</Heading>
+      <Heading>{title}</Heading>
     </Wrapper>
   )
 }

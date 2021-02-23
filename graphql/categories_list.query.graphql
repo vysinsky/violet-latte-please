@@ -1,5 +1,5 @@
 query categoriesList {
-    allCategories(orderBy: [position_ASC]) {
+    list: allCategories(orderBy: [position_ASC]) {
         title
         slug
     }

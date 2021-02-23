@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import styled, { css } from 'styled-components'
 import Link from 'next/link'
+import { categoriesListQuery } from '../generated/sdk'
 
 const Wrapper = styled.ul`
   background: #fff;
@@ -61,7 +62,11 @@ const Item = styled.li<{ active?: boolean }>`
     `}
 `
 
-export const Navigation: FC = () => {
+interface Props {
+  categories: categoriesListQuery
+}
+
+export const Navigation: FC<Props> = ({ categories }) => {
   return (
     <Wrapper>
       <Header>Menu</Header>
@@ -70,11 +75,13 @@ export const Navigation: FC = () => {
           <NavLink>Domů</NavLink>
         </Link>
       </Item>
-      <Item>
-        <Link href="" passHref>
-          <NavLink>link text</NavLink>
-        </Link>
-      </Item>
+      {categories.list.map(({ slug, title }) => (
+        <Item key={slug}>
+          <Link href={`/${slug}`} passHref>
+            <NavLink>{title}</NavLink>
+          </Link>
+        </Item>
+      ))}
     </Wrapper>
   )
 }
