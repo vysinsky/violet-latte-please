@@ -1,7 +1,0 @@
-query configuration {
-   data: _site {
-      globalSeo {
-         siteName
-      }
-   }
-}

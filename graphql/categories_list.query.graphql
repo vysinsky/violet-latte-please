@@ -1,6 +1,0 @@
-query categoriesList {
-    list: allCategories(orderBy: [position_ASC]) {
-        title
-        slug
-    }
-}

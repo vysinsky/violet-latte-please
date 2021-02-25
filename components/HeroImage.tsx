@@ -1,19 +1,22 @@
 import { FC } from 'react'
 import styled from 'styled-components'
+import { useAppContext } from './AppContextProvider'
+import { Image } from 'react-datocms'
 
 const Wrapper = styled.div`
   text-align: center;
 `
 
-const Image = styled.img`
-  width: 100%;
-  margin: 20px 0;
-`
-
 export const HeroImage: FC = () => {
+  const {
+    configuration: {
+      introImage: { responsiveImage },
+    },
+  } = useAppContext()
+
   return (
     <Wrapper>
-      <Image src="/HomepagePhoto.jpg" />
+      <Image data={responsiveImage} />
     </Wrapper>
   )
 }

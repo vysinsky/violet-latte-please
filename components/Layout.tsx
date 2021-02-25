@@ -5,7 +5,8 @@ import styled from 'styled-components'
 import { Header } from './Header'
 import { Navigation } from './Navigation'
 import { HeroImage } from './HeroImage'
-import { categoriesListQuery, configurationQuery } from '../generated/sdk'
+import { useAppContext } from './AppContextProvider'
+import { renderMetaTags } from 'react-datocms'
 
 const HeaderContainer = styled.div`
   margin: auto;
@@ -45,28 +46,29 @@ const ContentContainer = styled.main`
 
 interface Props {
   displayHero?: boolean
-  configuration: configurationQuery
-  categories: categoriesListQuery
 }
 
-export const Layout: FC<Props> = ({
-  children,
-  displayHero = true,
-  configuration,
-  categories,
-}) => {
+export const Layout: FC<Props> = ({ children, displayHero = true }) => {
+  const appContext = useAppContext()
+
+  const metaTags = appContext.configuration.seo.concat(appContext.site.favicon)
+
   return (
     <>
       <Head>
-        <title>{configuration.data.globalSeo.siteName}</title>
+        {!appContext.configuration.allowIndexing && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
+        {/* @ts-expect-error title for head is included in `renderMetaTags` */}
+        {renderMetaTags(metaTags)}
       </Head>
       <HeaderContainer>
         {displayHero && <HeroImage />}
-        <Header title={configuration.data.globalSeo.siteName} />
+        <Header title={appContext.site.globalSeo.siteName} />
       </HeaderContainer>
       <Wrapper>
         <Sidebar>
-          <Navigation categories={categories} />
+          <Navigation categories={appContext.categories} />
         </Sidebar>
         <ContentContainer>{children}</ContentContainer>
       </Wrapper>

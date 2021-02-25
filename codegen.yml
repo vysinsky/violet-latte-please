@@ -1,0 +1,22 @@
+schema:
+  - ${DATOCMS_ENDPOINT}:
+      headers:
+        Authorization: ${DATOCMS_TOKEN}
+documents: graphql/**/*.graphql
+overwrite: true
+config:
+  namingConvention:
+    typeNames: keep
+    enumValues: keep
+  transformUnderscore:
+    typeNames: true
+    enumValues: true
+hooks:
+  afterOneFileWrite:
+    - prettier --write
+generates:
+  "./generated/sdk.ts":
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request

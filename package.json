@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "yarn codegen:graphql",
+    "prebuild": "graphql-codegen",
     "build": "next build",
     "start": "next start",
-    "codegen:graphql": "graphql-codegen",
-    "codegen:graphql:watch": "graphql-codegen --watch"
+    "codegen:graphql": "graphql-codegen -r dotenv/config",
+    "codegen:graphql:watch": "graphql-codegen --watch -r dotenv/config"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
@@ -16,6 +16,7 @@
     "logrocket-react": "^4.0.1",
     "next": "^10.0.0",
     "react": "^17.0.1",
+    "react-datocms": "^1.5.5",
     "react-dom": "^17.0.1",
     "react-is": "^17.0.1",
     "react-ga": "^3.1.2",

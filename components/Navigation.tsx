@@ -1,7 +1,8 @@
 import { FC } from 'react'
 import styled, { css } from 'styled-components'
 import Link from 'next/link'
-import { categoriesListQuery } from '../generated/sdk'
+
+import { CategoryRecord } from '../generated/sdk'
 
 const Wrapper = styled.ul`
   background: #fff;
@@ -63,7 +64,7 @@ const Item = styled.li<{ active?: boolean }>`
 `
 
 interface Props {
-  categories: categoriesListQuery
+  categories: Pick<CategoryRecord, 'slug' | 'title'>[]
 }
 
 export const Navigation: FC<Props> = ({ categories }) => {
@@ -75,7 +76,7 @@ export const Navigation: FC<Props> = ({ categories }) => {
           <NavLink>Domů</NavLink>
         </Link>
       </Item>
-      {categories.list.map(({ slug, title }) => (
+      {categories.map(({ slug, title }) => (
         <Item key={slug}>
           <Link href={`/${slug}`} passHref>
             <NavLink>{title}</NavLink>

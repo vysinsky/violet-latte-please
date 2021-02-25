@@ -1,25 +1,27 @@
+import { AppContextProvider } from 'components/AppContextProvider'
+import React from 'react'
 import { Layout } from '../components/Layout'
-import { categoriesListQuery, configurationQuery } from '../generated/sdk'
+import { AppQueryQuery } from '../generated/sdk'
 import sdk from '../lib/DatoCmsClient'
 
 interface Props {
-  configuration: configurationQuery
-  categories: categoriesListQuery
+  data: AppQueryQuery
 }
 
 export default function IndexPage(props: Props): JSX.Element {
   return (
-    <Layout configuration={props.configuration} categories={props.categories} />
+    <AppContextProvider value={props.data}>
+      <Layout />
+    </AppContextProvider>
   )
 }
 
 export async function getStaticProps(): Promise<{ props: Props }> {
-  const configuration = await sdk.configuration()
-  const categories = await sdk.categoriesList()
+  const data = await sdk.AppQuery()
+
   return {
     props: {
-      categories,
-      configuration,
+      data,
     },
   }
 }

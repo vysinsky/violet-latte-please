@@ -1,0 +1,56 @@
+fragment responsiveImageFragment on ResponsiveImage {
+    srcSet
+    webpSrcSet
+    sizes
+    src
+    width
+    height
+    aspectRatio
+    alt
+    title
+    base64
+}
+
+fragment metaTagsFragment on Tag {
+    attributes
+    content
+    tag
+}
+
+query AppQuery {
+    configuration: blog {
+        seo: _seoMetaTags {
+            ...metaTagsFragment
+        }
+        allowIndexing
+        introImage {
+            responsiveImage {
+                ...responsiveImageFragment
+            }
+        }
+    }
+
+    categories: allCategories(orderBy: [position_ASC]) {
+        title
+        slug
+    }
+
+    site: _site {
+        favicon: faviconMetaTags {
+            ...metaTagsFragment
+        }
+        globalSeo {
+            siteName
+            fallbackSeo {
+                title
+                description
+                twitterCard
+                image {
+                    responsiveImage {
+                        ...responsiveImageFragment
+                    }
+                }
+            }
+        }
+    }
+}

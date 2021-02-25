@@ -36,3 +36,4 @@ yarn-error.log*
 .graphqlconfig
 generated
 .env
+schema.graphql
