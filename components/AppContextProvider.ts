@@ -8,6 +8,8 @@ const defaults: AppQueryQuery = {
     favicon: undefined,
     globalSeo: undefined,
   },
+  articles: [],
+  tags: [],
 }
 
 export const appContext = createContext<AppQueryQuery>(defaults)

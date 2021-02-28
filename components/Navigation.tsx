@@ -78,7 +78,7 @@ export const Navigation: FC<Props> = ({ categories }) => {
       </Item>
       {categories.map(({ slug, title }) => (
         <Item key={slug}>
-          <Link href={`/${slug}`} passHref>
+          <Link href={`/kategorie/${slug}`} passHref>
             <NavLink>{title}</NavLink>
           </Link>
         </Item>
