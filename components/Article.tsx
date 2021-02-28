@@ -1,0 +1,106 @@
+import Link from 'next/link'
+import React, { FC } from 'react'
+import styled from 'styled-components'
+import { StructuredText } from 'react-datocms'
+
+const ArticlePreview = styled.div``
+
+const Heading = styled.h2`
+  font-family: 'Amatic SC', cursive;
+  font-size: 2em;
+  line-height: 1.4em;
+  margin: 10px auto;
+  color: #ce93d8;
+  font-weight: bold;
+  vertical-align: middle;
+
+  @media only screen and (max-width: 400px) {
+    font-size: 2em;
+    line-height: 2em;
+  }
+`
+
+const Anchor = styled.a`
+  color: #ce93d8;
+  text-decoration: none;
+
+  &:hover {
+    color: #9b60a5;
+  }
+`
+
+const ArticleInfo = styled.p`
+  font-family: 'Amatic SC', cursive;
+  margin: 0;
+  font-size: 1.2em;
+  line-height: 1.5em;
+`
+
+const Tags = styled.p`
+  font-family: 'Amatic SC', cursive;
+
+  ${Anchor} {
+    color: #ce93d8;
+    border: 2px solid #ce93d8;
+    border-radius: 4px;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 5px;
+
+    &:hover {
+      color: #9b60a5;
+      border-color: #9b60a5;
+      background: #fff9ff;
+    }
+  }
+`
+
+const Content = styled.div`
+  a {
+    color: #ce93d8;
+    text-decoration: underline;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: #9b60a5;
+      text-decoration: underline;
+    }
+  }
+`
+
+interface Props {
+  article: any
+}
+
+export const Article: FC<Props> = ({ article }) => {
+  return (
+    <ArticlePreview key={article.id}>
+      <Heading>
+        <Link href={`/#${article.slug}`} passHref>
+          <Anchor>{article.title}</Anchor>
+        </Link>
+      </Heading>
+      <ArticleInfo>
+        Publikováno dne {article.date} v kategorii{' '}
+        <Link href={`/clanek/${article.category.slug}`} passHref>
+          <Anchor>{article.category.title}</Anchor>
+        </Link>
+      </ArticleInfo>
+      <Tags>
+        {article.tags.map(tag => (
+          <Link key={tag.id} href={`/tag/${tag.label}`} passHref>
+            <Anchor>{tag.label}</Anchor>
+          </Link>
+        ))}
+      </Tags>
+      <Content>
+        <StructuredText data={article.content} />
+      </Content>
+    </ArticlePreview>
+  )
+}

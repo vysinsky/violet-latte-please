@@ -35,6 +35,29 @@ query AppQuery {
         slug
     }
 
+    tags: allTags(orderBy: [label_ASC]) {
+        label
+    }
+
+    articles: allArticles(orderBy: [_publishedAt_DESC]) {
+        id
+        title
+        slug
+        date
+        content {
+            value
+        }
+        category {
+            id
+            slug
+            title
+        }
+        tags {
+            id
+            label
+        }
+    }
+
     site: _site {
         favicon: faviconMetaTags {
             ...metaTagsFragment
