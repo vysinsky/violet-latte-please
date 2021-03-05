@@ -7,5 +7,6 @@ module.exports = {
     DATOCMS_TOKEN: process.env.DATOCMS_TOKEN,
     GOOGLE_ANALYTICS_TRACKING_ID: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
     LOGROCKET_APP_ID: process.env.LOGROCKET_APP_ID,
+    FACEBOOK_APP_ID: process.env.FACEBOOK_APP_ID,
   },
 }

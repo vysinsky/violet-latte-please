@@ -45,6 +45,23 @@ query AppQuery {
         slug
         date
         content {
+            blocks {
+                __typename
+                ... on VideoRecord {
+                    id
+                    data {
+                        url
+                    }
+                }
+                ... on ImageBlockRecord {
+                    id
+                    image {
+                        responsiveImage {
+                            ...responsiveImageFragment
+                        }
+                    }
+                }
+            }
             value
         }
         category {
