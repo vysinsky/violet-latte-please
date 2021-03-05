@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { StructuredText } from 'react-datocms'
+import { ArticleContentRenderer } from './ArticleContentRenderer'
 
 const ArticlePreview = styled.div``
 
@@ -152,7 +152,7 @@ export const ArticlesList: FC<Props> = ({ articles }) => {
             ))}
           </Tags>
           <ContentPreview>
-            <StructuredText data={article.content} />
+            <ArticleContentRenderer article={article} />
           </ContentPreview>
           <BottomBar>
             <Link href={`/clanek/${article.slug}`} passHref>

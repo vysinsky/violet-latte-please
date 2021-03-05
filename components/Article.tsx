@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { StructuredText } from 'react-datocms'
+
+import { ArticleContentRenderer } from './ArticleContentRenderer'
 
 const ArticlePreview = styled.div``
 
@@ -99,7 +100,7 @@ export const Article: FC<Props> = ({ article }) => {
         ))}
       </Tags>
       <Content>
-        <StructuredText data={article.content} />
+        <ArticleContentRenderer article={article} />
       </Content>
     </ArticlePreview>
   )
