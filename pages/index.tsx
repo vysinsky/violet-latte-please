@@ -14,7 +14,7 @@ export default function IndexPage(props: Props): JSX.Element {
   return (
     <AppContextProvider value={props.data}>
       <Head>
-        <link rel="canonical" href={`https://${process.env.VERCEL_URL}`} />
+        <link rel="canonical" href={`https://${process.env.SITE_DOMAIN}`} />
       </Head>
       <Layout>
         <ArticlesList articles={props.data.articles} />

@@ -24,7 +24,7 @@ export default function TagPage(props: Props): JSX.Element {
       <Head>
         <link
           rel="canonical"
-          href={`https://${process.env.VERCEL_URL}/tag/${props.tag}`}
+          href={`https://${process.env.SITE_DOMAIN}/tag/${props.tag}`}
         />
       </Head>
       <Layout displayHero={false}>

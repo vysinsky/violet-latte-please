@@ -24,7 +24,7 @@ export default function ArticlePage(props: Props): JSX.Element {
       <Head>
         <link
           rel="canonical"
-          href={`https://${process.env.VERCEL_URL}/${props.slug}`}
+          href={`https://${process.env.SITE_DOMAIN}/${props.slug}`}
         />
       </Head>
       <Layout displayHero={false}>

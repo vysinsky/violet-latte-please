@@ -24,7 +24,7 @@ export default function CategoryPage(props: Props): JSX.Element {
       <Head>
         <link
           rel="canonical"
-          href={`https://${process.env.VERCEL_URL}/kategorie/${props.category}`}
+          href={`https://${process.env.SITE_DOMAIN}/kategorie/${props.category}`}
         />
       </Head>
       <Layout displayHero={false}>
