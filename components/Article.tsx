@@ -91,7 +91,7 @@ export const Article: FC<Props> = ({ article }) => {
       </Heading>
       <ArticleInfo>
         Publikováno dne {article.date} v kategorii{' '}
-        <Link href={`/clanek/${article.category.slug}`} passHref>
+        <Link href={`/kategorie/${article.category.slug}`} passHref>
           <Anchor>{article.category.title}</Anchor>
         </Link>
       </ArticleInfo>
