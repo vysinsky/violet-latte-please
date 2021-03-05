@@ -4,6 +4,7 @@ import { createGlobalStyle } from 'styled-components'
 import { initGA, logPageView } from '../lib/GoogleAnalytics'
 import { initLogRocket } from '../lib/LogRocket'
 import { Router } from 'next/router'
+import { FacebookProvider } from 'react-facebook'
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -31,8 +32,10 @@ class MyApp extends Component<AppProps> {
     const { Component, pageProps } = this.props
     return (
       <>
-        <GlobalStyles />
-        <Component {...pageProps} />
+        <FacebookProvider appId={process.env.FACEBOOK_APP_ID}>
+          <GlobalStyles />
+          <Component {...pageProps} />
+        </FacebookProvider>
       </>
     )
   }

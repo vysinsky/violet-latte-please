@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
 import styled from 'styled-components'
+import { Comments } from 'react-facebook'
 
 import { ArticleContentRenderer } from './ArticleContentRenderer'
 
-const ArticlePreview = styled.div``
+const ArticleWrapper = styled.div``
 
 const Heading = styled.h2`
   font-family: 'Amatic SC', cursive;
@@ -74,13 +75,15 @@ const Content = styled.div`
   }
 `
 
+const CommentsWrapper = styled.div``
+
 interface Props {
   article: any
 }
 
 export const Article: FC<Props> = ({ article }) => {
   return (
-    <ArticlePreview key={article.id}>
+    <ArticleWrapper key={article.id}>
       <Heading>
         <Link href={`/#${article.slug}`} passHref>
           <Anchor>{article.title}</Anchor>
@@ -102,6 +105,19 @@ export const Article: FC<Props> = ({ article }) => {
       <Content>
         <ArticleContentRenderer article={article} />
       </Content>
-    </ArticlePreview>
+      {typeof window !== 'undefined' && (
+        <CommentsWrapper>
+          <Heading id="komentare" as="h4">
+            Komentáře
+          </Heading>
+          <div>
+            <Comments
+              width="800"
+              href={`${location.origin}/clanek/${article.slug}`}
+            />
+          </div>
+        </CommentsWrapper>
+      )}
+    </ArticleWrapper>
   )
 }

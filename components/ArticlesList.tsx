@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { CommentsCount } from 'react-facebook'
 import { ArticleContentRenderer } from './ArticleContentRenderer'
 
 const ArticlePreview = styled.div``
@@ -30,6 +31,9 @@ const Anchor = styled.a`
 `
 
 const ArticleInfo = styled.p`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   font-family: 'Amatic SC', cursive;
   margin: 0;
   font-size: 1.2em;
@@ -120,6 +124,12 @@ const BottomBar = styled.div`
   }
 `
 
+const CommentsCountWrapper = styled.div`
+  ${Anchor} > div {
+    display: inline;
+  }
+`
+
 interface Props {
   articles: any[]
 }
@@ -128,6 +138,12 @@ export const ArticlesList: FC<Props> = ({ articles }) => {
   if (articles.length === 0) {
     return <Heading>Žádné články nebyly nalezeny</Heading>
   }
+
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   return (
     <>
@@ -139,12 +155,27 @@ export const ArticlesList: FC<Props> = ({ articles }) => {
             </Link>
           </Heading>
           <ArticleInfo>
-            Publikováno dne {article.date} v kategorii{' '}
-            <Link href={`/kategorie/${article.category.slug}`} passHref>
-              <Anchor>{article.category.title}</Anchor>
-            </Link>
+            <div>
+              Publikováno dne {article.date} v kategorii{' '}
+              <Link href={`/kategorie/${article.category.slug}`} passHref>
+                <Anchor>{article.category.title}</Anchor>
+              </Link>
+            </div>
+            {typeof window !== 'undefined' && (
+              <CommentsCountWrapper>
+                <Link href={`/clanek/${article.slug}#komentare`} passHref>
+                  <Anchor>
+                    Komentářů:
+                    <CommentsCount
+                      style={{ display: 'inline' }}
+                      href={`${location.origin}/clanek/${article.slug}`}
+                    />
+                  </Anchor>
+                </Link>
+              </CommentsCountWrapper>
+            )}
           </ArticleInfo>
-          <Tags>
+          <Tags key={isClient ? 'ssr' : 'client'}>
             {article.tags.map(tag => (
               <Link key={tag.id} href={`/tag/${tag.label}`} passHref>
                 <Anchor>{tag.label}</Anchor>
