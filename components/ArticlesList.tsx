@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import React, { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { CommentsCount } from 'react-facebook'
+import { CommentCount } from 'disqus-react'
+
 import { ArticleContentRenderer } from './ArticleContentRenderer'
 
 const ArticlePreview = styled.div``
@@ -165,10 +166,13 @@ export const ArticlesList: FC<Props> = ({ articles }) => {
               <CommentsCountWrapper>
                 <Link href={`/clanek/${article.slug}#komentare`} passHref>
                   <Anchor>
-                    Komentářů:
-                    <CommentsCount
-                      style={{ display: 'inline' }}
-                      href={`${location.origin}/clanek/${article.slug}`}
+                    <CommentCount
+                      shortname="violet-latte-please"
+                      config={{
+                        url: process.env.DISQUS_URL,
+                        identifier: article.id,
+                        title: article.title,
+                      }}
                     />
                   </Anchor>
                 </Link>
