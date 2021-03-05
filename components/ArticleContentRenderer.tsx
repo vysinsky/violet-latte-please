@@ -8,39 +8,44 @@ interface Props {
   article: ArticleRecord
 }
 
-export const ArticleContentRenderer: FC<Props> = ({ article }) => (
-  <StructuredText
-    // @ts-expect-error Some typing error
-    data={article.content}
-    renderBlock={({ record }) => {
-      switch (record.__typename) {
-        case 'VideoRecord':
-          return (
-            <div style={{ position: 'relative', paddingTop: '56.25%' }}>
-              <ReactPlayer
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                }}
-                url={(record as VideoRecord).data.url}
-                top={0}
-                left={0}
-                width="100%"
-                height="100%"
+export const ArticleContentRenderer: FC<Props> = ({ article }) => {
+  return (
+    <StructuredText
+      // @ts-expect-error Some typing error
+      data={article.content}
+      renderText={text => text.replace(/\s([ksvzouai])\s(\w)/gi, ' $1\u00a0$2')}
+      renderBlock={({ record }) => {
+        switch (record.__typename) {
+          case 'VideoRecord':
+            return (
+              <div style={{ position: 'relative', paddingTop: '56.25%' }}>
+                <ReactPlayer
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                  }}
+                  url={(record as VideoRecord).data.url}
+                  top={0}
+                  left={0}
+                  width="100%"
+                  height="100%"
+                />
+              </div>
+            )
+          case 'ImageBlockRecord':
+            return (
+              <Image
+                data={(record as ImageBlockRecord).image.responsiveImage}
               />
-            </div>
-          )
-        case 'ImageBlockRecord':
-          return (
-            <Image data={(record as ImageBlockRecord).image.responsiveImage} />
-          )
-        default:
-          console.warn(`Cannot handle record type "${record.__typename}"`)
-          return null
-      }
-    }}
-  />
-)
+            )
+          default:
+            console.warn(`Cannot handle record type "${record.__typename}"`)
+            return null
+        }
+      }}
+    />
+  )
+}
