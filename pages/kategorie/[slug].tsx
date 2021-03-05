@@ -1,8 +1,9 @@
 import { AppContextProvider } from 'components/AppContextProvider'
 import React from 'react'
+import Head from 'next/head'
 
 import { Layout } from '../../components/Layout'
-import { AppQueryQuery, ArticleRecord } from '../../generated/sdk'
+import { AppQueryQuery } from '../../generated/sdk'
 import sdk from '../../lib/DatoCmsClient'
 import {
   GetStaticPathsResult,
@@ -12,13 +13,20 @@ import {
 import { ArticlesList } from 'components/ArticlesList'
 
 interface Props {
+  category: string
   data: AppQueryQuery
   articles: any[]
 }
 
-export default function ArticlePage(props: Props): JSX.Element {
+export default function CategoryPage(props: Props): JSX.Element {
   return (
     <AppContextProvider value={props.data}>
+      <Head>
+        <link
+          rel="canonical"
+          href={`https://${process.env.VERCEL_URL}/kategorie/${props.category}`}
+        />
+      </Head>
       <Layout displayHero={false}>
         <ArticlesList articles={props.articles} />
       </Layout>
@@ -49,6 +57,7 @@ export async function getStaticProps(
 
   return {
     props: {
+      category: context.params.slug as string,
       data,
       articles,
     },

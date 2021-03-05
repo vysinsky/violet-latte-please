@@ -1,8 +1,9 @@
 import { AppContextProvider } from 'components/AppContextProvider'
 import React from 'react'
+import Head from 'next/head'
 
 import { Layout } from '../../components/Layout'
-import { AppQueryQuery, ArticleRecord } from '../../generated/sdk'
+import { AppQueryQuery } from '../../generated/sdk'
 import sdk from '../../lib/DatoCmsClient'
 import { Article } from '../../components/Article'
 import {
@@ -12,6 +13,7 @@ import {
 } from 'next'
 
 interface Props {
+  slug: string
   data: AppQueryQuery
   currentArticle: any
 }
@@ -19,6 +21,12 @@ interface Props {
 export default function ArticlePage(props: Props): JSX.Element {
   return (
     <AppContextProvider value={props.data}>
+      <Head>
+        <link
+          rel="canonical"
+          href={`https://${process.env.VERCEL_URL}/${props.slug}`}
+        />
+      </Head>
       <Layout displayHero={false}>
         <Article article={props.currentArticle} />
       </Layout>
@@ -53,6 +61,7 @@ export async function getStaticProps(
 
   return {
     props: {
+      slug: context.params.slug as string,
       data,
       currentArticle: article,
     },
