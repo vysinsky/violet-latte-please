@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { Comments } from 'react-facebook'
 
 import { ArticleContentRenderer } from './ArticleContentRenderer'
+import { DiscussionEmbed } from 'disqus-react'
 
 const ArticleWrapper = styled.div``
 
@@ -111,9 +111,14 @@ export const Article: FC<Props> = ({ article }) => {
             Komentáře
           </Heading>
           <div>
-            <Comments
-              width="800"
-              href={`${location.origin}/clanek/${article.slug}`}
+            <DiscussionEmbed
+              shortname="violet-latte-please"
+              config={{
+                url: process.env.DISQUS_URL,
+                identifier: article.id,
+                title: article.title,
+                language: 'cs_CZ',
+              }}
             />
           </div>
         </CommentsWrapper>
