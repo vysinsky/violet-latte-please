@@ -31,6 +31,11 @@ const Anchor = styled.a`
   }
 `
 
+const AnchorLike = styled.span`
+  color: #ce93d8;
+  text-decoration: none;
+`
+
 const ArticleInfo = styled.p`
   font-family: 'Amatic SC', cursive;
   margin: 0;
@@ -85,9 +90,7 @@ export const Article: FC<Props> = ({ article }) => {
   return (
     <ArticleWrapper key={article.id}>
       <Heading>
-        <Link href={`/#${article.slug}`} passHref>
-          <Anchor>{article.title}</Anchor>
-        </Link>
+        <AnchorLike>{article.title}</AnchorLike>
       </Heading>
       <ArticleInfo>
         Publikováno dne {article.date} v kategorii{' '}

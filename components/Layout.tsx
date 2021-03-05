@@ -7,6 +7,7 @@ import { Navigation } from './Navigation'
 import { HeroImage } from './HeroImage'
 import { useAppContext } from './AppContextProvider'
 import { renderMetaTags } from 'react-datocms'
+import { Footer } from './Footer'
 
 const HeaderContainer = styled.div`
   margin: auto;
@@ -70,7 +71,10 @@ export const Layout: FC<Props> = ({ children, displayHero = true }) => {
         <Sidebar>
           <Navigation categories={appContext.categories} />
         </Sidebar>
-        <ContentContainer>{children}</ContentContainer>
+        <ContentContainer>
+          {children}
+          <Footer content={appContext.configuration.footerContent} />
+        </ContentContainer>
       </Wrapper>
     </>
   )

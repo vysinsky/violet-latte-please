@@ -28,6 +28,9 @@ query AppQuery {
                 ...responsiveImageFragment
             }
         }
+        footerContent {
+            value
+        }
     }
 
     categories: allCategories(orderBy: [position_ASC]) {
