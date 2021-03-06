@@ -22,7 +22,10 @@ export default function CategoryPage(props: Props): JSX.Element {
   return (
     <AppContextProvider value={props.data}>
       <Layout isHomepage={false}>
-        <ArticlesList articles={props.articles} />
+        <ArticlesList
+          articles={props.articles}
+          title={`Články v kategorii ${props.category}`}
+        />
       </Layout>
       <Head>
         <link

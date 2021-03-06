@@ -22,7 +22,10 @@ export default function TagPage(props: Props): JSX.Element {
   return (
     <AppContextProvider value={props.data}>
       <Layout isHomepage={false}>
-        <ArticlesList articles={props.articles} />
+        <ArticlesList
+          articles={props.articles}
+          title={`Články se štítkem ${props.tag} `}
+        />
       </Layout>
       <Head>
         <link
@@ -30,8 +33,8 @@ export default function TagPage(props: Props): JSX.Element {
           href={`https://${process.env.SITE_DOMAIN}/tag/${props.tag}`}
         />
         <title>
-          Články se štítkem &quote;{props.tag}&quote; |{' '}
-          {props.data.configuration.webTitle}
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
+          Články se štítkem "{props.tag}" | {props.data.configuration.webTitle}
         </title>
       </Head>
     </AppContextProvider>

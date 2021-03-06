@@ -133,9 +133,10 @@ const CommentsCountWrapper = styled.div`
 
 interface Props {
   articles: any[]
+  title?: string
 }
 
-export const ArticlesList: FC<Props> = ({ articles }) => {
+export const ArticlesList: FC<Props> = ({ articles, title }) => {
   if (articles.length === 0) {
     return <Heading as="h2">Žádné články nebyly nalezeny</Heading>
   }
@@ -148,6 +149,8 @@ export const ArticlesList: FC<Props> = ({ articles }) => {
 
   return (
     <>
+      {title && <Heading as="h1">{title}</Heading>}
+      <hr />
       {articles.map(article => (
         <ArticlePreview key={article.id}>
           <Heading as="h3">
