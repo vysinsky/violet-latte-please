@@ -48,6 +48,9 @@ query AppQuery {
         title
         slug
         date
+        seo: _seoMetaTags {
+            ...metaTagsFragment
+        }
         content {
             blocks {
                 __typename
