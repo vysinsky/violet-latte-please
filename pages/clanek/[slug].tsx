@@ -21,7 +21,7 @@ interface Props {
 export default function ArticlePage(props: Props): JSX.Element {
   return (
     <AppContextProvider value={props.data}>
-      <Layout displayHero={false}>
+      <Layout isHomepage={false}>
         <Article article={props.currentArticle} />
       </Layout>
       <Head>

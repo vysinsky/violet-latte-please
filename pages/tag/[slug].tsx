@@ -21,7 +21,7 @@ interface Props {
 export default function TagPage(props: Props): JSX.Element {
   return (
     <AppContextProvider value={props.data}>
-      <Layout displayHero={false}>
+      <Layout isHomepage={false}>
         <ArticlesList articles={props.articles} />
       </Layout>
       <Head>

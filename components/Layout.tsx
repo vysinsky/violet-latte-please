@@ -47,10 +47,10 @@ const ContentContainer = styled.main`
 `
 
 interface Props {
-  displayHero?: boolean
+  isHomepage?: boolean
 }
 
-export const Layout: FC<Props> = ({ children, displayHero = true }) => {
+export const Layout: FC<Props> = ({ children, isHomepage = true }) => {
   const appContext = useAppContext()
 
   const metaTags = appContext.configuration.seo.concat(appContext.site.favicon)
@@ -65,8 +65,11 @@ export const Layout: FC<Props> = ({ children, displayHero = true }) => {
         {renderMetaTags(metaTags)}
       </Head>
       <HeaderContainer>
-        {displayHero && <HeroImage />}
-        <Header title={appContext.site.globalSeo.siteName} />
+        {isHomepage && <HeroImage />}
+        <Header
+          isHomepage={isHomepage}
+          title={appContext.site.globalSeo.siteName}
+        />
       </HeaderContainer>
       <Wrapper>
         <Sidebar>

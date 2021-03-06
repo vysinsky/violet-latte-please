@@ -26,12 +26,13 @@ const Heading = styled.h3`
 
 interface Props {
   title: string
+  isHomepage: boolean
 }
 
-export const Header: FC<Props> = ({ title }) => {
+export const Header: FC<Props> = ({ title, isHomepage }) => {
   return (
     <Wrapper>
-      <Heading>{title}</Heading>
+      <Heading as={isHomepage ? 'h1' : undefined}>{title}</Heading>
     </Wrapper>
   )
 }
