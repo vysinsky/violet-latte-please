@@ -32,6 +32,10 @@ export default function TagPage(props: Props): JSX.Element {
           rel="canonical"
           href={`https://${process.env.SITE_DOMAIN}/tag/${props.tag}`}
         />
+        <meta
+          name="og:url"
+          content={`https://${process.env.SITE_DOMAIN}/tag/${props.tag}`}
+        />
         <title>
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           Články se štítkem "{props.tag}" | {props.data.configuration.webTitle}

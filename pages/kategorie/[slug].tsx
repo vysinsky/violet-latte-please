@@ -32,6 +32,10 @@ export default function CategoryPage(props: Props): JSX.Element {
           rel="canonical"
           href={`https://${process.env.SITE_DOMAIN}/kategorie/${props.category}`}
         />
+        <meta
+          name="og:url"
+          content={`https://${process.env.SITE_DOMAIN}/kategorie/${props.category}`}
+        />
         <title>
           Kategorie {props.category} | {props.data.configuration.webTitle}
         </title>

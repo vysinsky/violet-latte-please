@@ -30,6 +30,10 @@ export default function ArticlePage(props: Props): JSX.Element {
           rel="canonical"
           href={`https://${process.env.SITE_DOMAIN}/clanek/${props.slug}`}
         />
+        <meta
+          name="og:url"
+          content={`https://${process.env.SITE_DOMAIN}/clanek/${props.slug}`}
+        />
         {renderMetaTags(props.currentArticle.seo)}
         <title>
           {props.currentArticle.title} | {props.data.configuration.webTitle}
