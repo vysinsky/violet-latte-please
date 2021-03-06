@@ -7,7 +7,7 @@ import { DiscussionEmbed } from 'disqus-react'
 
 const ArticleWrapper = styled.div``
 
-const Heading = styled.h2`
+const Heading = styled.h1`
   font-family: 'Amatic SC', cursive;
   font-size: 2em;
   line-height: 1.4em;

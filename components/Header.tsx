@@ -9,7 +9,7 @@ const Wrapper = styled.header`
   font-family: 'Amatic SC', cursive;
 `
 
-const Heading = styled.h1`
+const Heading = styled.h3`
   font-size: 3em;
   line-height: 1.4em;
   margin: 10px auto;
