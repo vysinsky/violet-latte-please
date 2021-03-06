@@ -28,6 +28,7 @@ const Vivantis = () => (
     <img
       src="https://img.vivantiscdn.net/soubory/-/provizni-system.cz/bannery/vivantis-cz-250x250_cz.jpg"
       alt="vivantis.cz"
+      title="vivantis.cz"
     />
   </a>
 )
@@ -38,7 +39,11 @@ const Econea = () => (
     target="_blank"
     rel="nofollow, noreferrer"
   >
-    <img src="/partneri/250x250_Econea_Heroes.png" alt="econea.cz" />
+    <img
+      src="/partneri/250x250_Econea_Heroes.png"
+      alt="econea.cz"
+      title="econea.cz"
+    />
   </a>
 )
 
@@ -51,6 +56,7 @@ const SperkyCz = () => (
     <img
       src="https://img.vivantiscdn.net/soubory/-/provizni-system.cz/bannery/sperky-brand_bannery_3_250x250-1.jpg"
       alt="šperky.cz"
+      title="šperky.cz"
     />
   </a>
 )
@@ -61,11 +67,11 @@ const HodinkyCz = () => (
     target="_blank"
     rel="nofollow, noreferrer"
   >
-    {' '}
     <img
       src="https://img.vivantiscdn.net/soubory/-/provizni-system.cz/bannery/hodinky-ho_brand_250x250.jpg"
       alt="hodinky.cz"
-    />{' '}
+      title="hodinky.cz"
+    />
   </a>
 )
 
@@ -78,6 +84,7 @@ const KrasaCz = () => (
     <img
       src="https://img.vivantiscdn.net/soubory/-/provizni-system.cz/bannery/krasa-brand_bannery_1_250x250.jpg"
       alt="krása.cz"
+      title="krása.cz"
     />
   </a>
 )
@@ -91,6 +98,7 @@ const ParfemyCz = () => (
     <img
       src="https://img.vivantiscdn.net/soubory/-/provizni-system.cz/bannery/parfemy-armani_bannery_1_250x250.jpg"
       alt="parfémy.cz"
+      title="parfémy.cz"
     />
   </a>
 )
@@ -104,6 +112,7 @@ const ProzdraviCz = () => (
     <img
       src="https://img.vivantiscdn.net/soubory/-/provizni-system.cz/bannery/prozdravi-alergie-250x250.jpg"
       alt="prozdraví.cz"
+      title="prozdraví.cz"
     />
   </a>
 )
