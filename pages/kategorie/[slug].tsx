@@ -21,15 +21,18 @@ interface Props {
 export default function CategoryPage(props: Props): JSX.Element {
   return (
     <AppContextProvider value={props.data}>
+      <Layout displayHero={false}>
+        <ArticlesList articles={props.articles} />
+      </Layout>
       <Head>
         <link
           rel="canonical"
           href={`https://${process.env.SITE_DOMAIN}/kategorie/${props.category}`}
         />
+        <title>
+          Kategorie {props.category} | {props.data.configuration.webTitle}
+        </title>
       </Head>
-      <Layout displayHero={false}>
-        <ArticlesList articles={props.articles} />
-      </Layout>
     </AppContextProvider>
   )
 }

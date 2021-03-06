@@ -22,6 +22,7 @@ query AppQuery {
         seo: _seoMetaTags {
             ...metaTagsFragment
         }
+        webTitle
         allowIndexing
         introImage {
             responsiveImage {

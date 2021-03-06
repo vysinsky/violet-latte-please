@@ -21,15 +21,19 @@ interface Props {
 export default function TagPage(props: Props): JSX.Element {
   return (
     <AppContextProvider value={props.data}>
+      <Layout displayHero={false}>
+        <ArticlesList articles={props.articles} />
+      </Layout>
       <Head>
         <link
           rel="canonical"
           href={`https://${process.env.SITE_DOMAIN}/tag/${props.tag}`}
         />
+        <title>
+          Články se štítkem &quote;{props.tag}&quote; |{' '}
+          {props.data.configuration.webTitle}
+        </title>
       </Head>
-      <Layout displayHero={false}>
-        <ArticlesList articles={props.articles} />
-      </Layout>
     </AppContextProvider>
   )
 }

@@ -21,15 +21,18 @@ interface Props {
 export default function ArticlePage(props: Props): JSX.Element {
   return (
     <AppContextProvider value={props.data}>
+      <Layout displayHero={false}>
+        <Article article={props.currentArticle} />
+      </Layout>
       <Head>
         <link
           rel="canonical"
           href={`https://${process.env.SITE_DOMAIN}/clanek/${props.slug}`}
         />
+        <title>
+          {props.currentArticle.title} | {props.data.configuration.webTitle}
+        </title>
       </Head>
-      <Layout displayHero={false}>
-        <Article article={props.currentArticle} />
-      </Layout>
     </AppContextProvider>
   )
 }

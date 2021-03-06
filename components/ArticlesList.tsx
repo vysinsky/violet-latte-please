@@ -7,7 +7,7 @@ import { ArticleContentRenderer } from './ArticleContentRenderer'
 
 const ArticlePreview = styled.div``
 
-const Heading = styled.h2`
+const Heading = styled.h1`
   font-family: 'Amatic SC', cursive;
   font-size: 2em;
   line-height: 1.4em;
@@ -137,7 +137,7 @@ interface Props {
 
 export const ArticlesList: FC<Props> = ({ articles }) => {
   if (articles.length === 0) {
-    return <Heading>Žádné články nebyly nalezeny</Heading>
+    return <Heading as="h2">Žádné články nebyly nalezeny</Heading>
   }
 
   const [isClient, setIsClient] = useState(false)
@@ -150,7 +150,7 @@ export const ArticlesList: FC<Props> = ({ articles }) => {
     <>
       {articles.map(article => (
         <ArticlePreview key={article.id}>
-          <Heading>
+          <Heading as="h3">
             <Link href={`/clanek/${article.slug}`} passHref>
               <Anchor>{article.title}</Anchor>
             </Link>
