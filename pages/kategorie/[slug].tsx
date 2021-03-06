@@ -35,6 +35,10 @@ export default function CategoryPage(props: Props): JSX.Element {
         <title>
           Kategorie {props.category} | {props.data.configuration.webTitle}
         </title>
+        <meta
+          name="description"
+          content={`Výpis článků z kategorie ${props.category} na blogu ${props.data.configuration.webTitle}`}
+        />
       </Head>
     </AppContextProvider>
   )
