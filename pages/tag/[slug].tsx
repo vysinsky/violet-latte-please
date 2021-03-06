@@ -33,7 +33,7 @@ export default function TagPage(props: Props): JSX.Element {
           href={`https://${process.env.SITE_DOMAIN}/tag/${props.tag}`}
         />
         <meta
-          name="og:url"
+          property="og:url"
           content={`https://${process.env.SITE_DOMAIN}/tag/${props.tag}`}
         />
         <title>

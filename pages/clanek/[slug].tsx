@@ -31,7 +31,7 @@ export default function ArticlePage(props: Props): JSX.Element {
           href={`https://${process.env.SITE_DOMAIN}/clanek/${props.slug}`}
         />
         <meta
-          name="og:url"
+          property="og:url"
           content={`https://${process.env.SITE_DOMAIN}/clanek/${props.slug}`}
         />
         {renderMetaTags(props.currentArticle.seo)}
