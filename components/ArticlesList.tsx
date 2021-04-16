@@ -160,7 +160,13 @@ export const ArticlesList: FC<Props> = ({ articles, title }) => {
           </Heading>
           <ArticleInfo>
             <div>
-              Publikováno dne {article.date} v kategorii{' '}
+              Publikováno{' '}
+              {new Date(article.date).toLocaleDateString('cs-CZ', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}{' '}
+              v kategorii{' '}
               <Link href={`/kategorie/${article.category.slug}`} passHref>
                 <Anchor>{article.category.title}</Anchor>
               </Link>

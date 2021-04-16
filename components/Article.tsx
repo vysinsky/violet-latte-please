@@ -93,7 +93,13 @@ export const Article: FC<Props> = ({ article }) => {
         <AnchorLike>{article.title}</AnchorLike>
       </Heading>
       <ArticleInfo>
-        Publikováno dne {article.date} v kategorii{' '}
+        Publikováno dne{' '}
+        {new Date(article.date).toLocaleDateString('cs-CZ', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })}{' '}
+        v kategorii{' '}
         <Link href={`/kategorie/${article.category.slug}`} passHref>
           <Anchor>{article.category.title}</Anchor>
         </Link>
