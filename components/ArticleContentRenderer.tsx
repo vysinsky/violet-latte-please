@@ -39,6 +39,7 @@ export const ArticleContentRenderer: FC<Props> = ({ article }) => {
             return (
               <Image
                 data={(record as ImageBlockRecord).image.responsiveImage}
+                style={{ width: '60%', margin: '0 auto' }}
               />
             )
           default:
