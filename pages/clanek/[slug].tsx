@@ -38,6 +38,21 @@ export default function ArticlePage(props: Props): JSX.Element {
         <title>
           {props.currentArticle.title} | {props.data.configuration.webTitle}
         </title>
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org", 
+            "@type": "Article",
+            "author": "Violet latte, Please!",
+            "headline": "${props.currentArticle.title}",
+            "datePublished": "${props.currentArticle.date}",
+            "publisher": {
+              "name": "Violet latte, Please!"
+            },
+            "keywords": "${props.currentArticle.tags
+              .map(tag => tag.label)
+              .join(',')}"
+          }
+        `}</script>
       </Head>
     </AppContextProvider>
   )
