@@ -15,7 +15,7 @@
     "dotenv": "^8.2.0",
     "logrocket": "^1.0.13",
     "logrocket-react": "^4.0.1",
-    "next": "^10.0.0",
+    "next": "^11.1.1",
     "react": "^17.0.1",
     "react-datocms": "^1.5.5",
     "react-dom": "^17.0.1",
